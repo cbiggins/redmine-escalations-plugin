@@ -3,8 +3,7 @@ class EscalationController < ApplicationController
 
 
   def index
+      @escalations = Escalation.find(:all)
   end
 
-  def view
-  end
 end
