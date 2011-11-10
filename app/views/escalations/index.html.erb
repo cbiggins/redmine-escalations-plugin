@@ -4,48 +4,6 @@
 
     <% issue = escalation.getIssue %>
     <%= link_to issue.to_s, :controller => 'issues', :action => 'show', :id => issue %>
+    <br />
 
     <% end %>
-    
-
-<% @tracker = Tracker.find(:first, :conditions => { :name => 'Support' })  %>
-<% @issues = Issue.find(:all, :conditions => { :tracker_id => @tracker })%>
-
-<br />
-Now : 
-<br />
-<% now = Time.now %>
-<%= now.to_s(:db) %>
-<br />
-
-2 Hours Ago : 
-<br />
-<% t = Time.now - 7200 %>
-<%= t.to_s(:db) %>
-
-<%
-
-    hash_conditions = {:tracker_id => @tracker}
-    conditions = Issue.merge_conditions(hash_conditions) + ' AND created_on < "'+ now.to_s(:db) +'"'
-    @issues = Issue.find(:all, :conditions => conditions)
-
-%>
-<br />
-Now for the users ... 
-<br />
-
-<% @role = Role.find(:first, :conditions => {:name => 'Project Manager'} )%>
-
-<% 
-    emails = []
-    @role.members.each do |member| %>
-
-    <% user = User.find(:first, :conditions => {:id => member.user_id}) %>
-    <% emails << user.mail if user%><br />
-
-<% end 
-
-    emails.uniq!
-%>
-
-<%= emails %>
