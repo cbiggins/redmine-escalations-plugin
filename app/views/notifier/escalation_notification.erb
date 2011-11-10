@@ -1,0 +1,5 @@
+<strong>This issue is now over 2hrs old and has not had any updates!</strong>
+
+<% url = url_for(:action => 'show', :controller => 'issues', :only_path => false, :protocol => 'http', :host => 'redmine.previousnext.com.au', :id => @issue) %>
+<%= link_to @issue.to_s, url %>
+

@@ -7,4 +7,8 @@ Redmine::Plugin.register :redmine_escalations do
   version '0.0.1'
   url 'http://example.com/path/to/plugin'
   author_url 'http://example.com/about'
+
+  permission :escalations, { :escalations => [:index, :view] }, :public => true
+  menu :project_menu, :escalations, { :controller => 'escalations', :action => 'index' }, :caption => 'Escalations', :after => :issues, :param => :project_id
+
 end
