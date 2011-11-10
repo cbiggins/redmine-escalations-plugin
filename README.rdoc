@@ -2,6 +2,8 @@
 
 This plugin simply emails all users of a role titled 'Support' when an issue in the 'Support' tracker has been opened and un-actioned for 2hrs. It adds a tab with a list of escalated issues to each project page.
 
+Please log issues in the issue queue; https://github.com/cbiggins/redmine-escalations-plugin/issues
+
 = TODO
 * Need to add a settings page to administer the escalation time and the user role to email
 * Need to group by id when selecting issues to display so there are no duplicates
