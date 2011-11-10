@@ -29,7 +29,7 @@ namespace :redmine do
        @issues = Issue.find(:all, :conditions => conditions)
 
        # Now, lets get the users in the Support role
-       @role = Role.find(:first, :conditions => {:name => 'Project Manager'} )
+       @role = Role.find(:first, :conditions => {:name => 'Support'} )
 
        # We'll populate a user array so we can loop over them for the notifications
        users = []
