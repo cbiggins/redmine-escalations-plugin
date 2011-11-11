@@ -1,5 +1,13 @@
-<strong>This issue is now over 2hrs old and has not had any updates!</strong>
-
-<% url = url_for(:action => 'show', :controller => 'issues', :only_path => false, :protocol => 'http', :host => 'redmine.previousnext.com.au', :id => @issue) %>
-<%= link_to @issue.to_s, url %>
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <h1>This issue is now over 2hrs old and has not had any updates!</h1>
+    <p>
+        <% url = url_for(:action => 'show', :controller => 'issues', :only_path => false, :protocol => 'http', :host => 'redmine.previousnext.com.au', :id => @issue) %>
+        <%= link_to @issue.to_s, url %>
+    </p>
+  </body>
+</html>

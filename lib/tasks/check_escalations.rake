@@ -5,10 +5,11 @@ ActionMailer::Base.template_root='vendor/plugins/redmine_escalations/app/views/'
 
 class Notifier < ActionMailer::Base
    def escalation_notification(recipient, issue)
-     recipients recipient.mail
-     from       "redmine@previousnext.com.au"
-     subject    "Issue Escalation: " + issue.to_s
-     body       :issue => issue
+     recipients     recipient.mail
+     from           "redmine@previousnext.com.au"
+     subject        "Issue Escalation: " + issue.to_s
+     body           :issue => issue
+     content_type   "text/html"
    end
 end
 
@@ -28,26 +29,28 @@ namespace :redmine do
        conditions = Issue.merge_conditions(hash_conditions) + ' AND created_on < "'+ now.to_s(:db) +'" AND created_on = updated_on'
        @issues = Issue.find(:all, :conditions => conditions)
 
-       # Now, lets get the users in the Support role
+       # Grab the support role...
        @role = Role.find(:first, :conditions => {:name => 'Support'} )
 
-       # We'll populate a user array so we can loop over them for the notifications
-       users = []
-       @role.members.each do |member|
-           user = User.find(:first, :conditions => {:id => member.user_id})
-           if !users.include?(user) 
-               users << user
-           end
-       end
-       
        #  We'll loop over the issues and email all role members about each one.
        @issues.each do |issue|
+
+          # Now, lets get the users in the Support role for this Project ...
+          members = Member.find(:all, :joins => :member_roles, :conditions => { :project_id => issue.project_id , :member_roles => { :role_id => @role }} )
+
+          # We'll populate a user array so we can loop over them for the notifications
+          users = []
+          members.each do |member|
+              user = User.find(:first, :conditions => {:id => member.user_id})
+              if !users.include?(user) 
+                  users << user
+              end
+          end
 
            sent_to = []
            users.each do |user|
                if user != nil && !sent_to.include?(user.mail)
                    mail = Notifier.create_escalation_notification(user, issue) 
-                   puts YAML.dump(mail)
                    Notifier.deliver(mail)
                    sent_to << user.mail
                end
