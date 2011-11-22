@@ -30,7 +30,7 @@ namespace :redmine do
        @issues = Issue.find(:all, :conditions => conditions)
 
        # Grab the support role...
-       @role = Role.find(:first, :conditions => {:name => 'Support'} )
+       @role = Role.find(:first, :conditions => {:name => 'Support Team'} )
 
        #  We'll loop over the issues and email all role members about each one.
        @issues.each do |issue|
